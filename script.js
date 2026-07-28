@@ -1,6 +1,18 @@
 let currentTargetSide = 'your';
 
+// 🔊 Custom Sound Effects Setup
+const clickSfx = new Audio('freesound_community-short-beep-tone-47916.mp3');
+const addSfx = new Audio('universfield-digital-beep-151921.mp3');
+const calcSfx = new Audio('dragon-studio-laser-sfx-570449.mp3'); 
+
+// Helper function to play sound smoothly
+function playSound(audio) {
+    audio.currentTime = 0;
+    audio.play().catch(err => console.log("Audio play blocked until user interaction."));
+}
+
 function openPopup(side) {
+    playSound(clickSfx);
     currentTargetSide = side;
     const containerId = currentTargetSide === 'your' ? 'yourItems' : 'theirItems';
     const container = document.getElementById(containerId);
@@ -17,6 +29,7 @@ function openPopup(side) {
 }
 
 function closePopup() {
+    playSound(clickSfx);
     const modal = document.getElementById('itemModal');
     if (modal) {
         modal.style.display = 'none';
@@ -24,6 +37,7 @@ function closePopup() {
 }
 
 function confirmAddItem(baseValue, name, emoji, color, allowedVariants = ['normal']) {
+    playSound(addSfx);
     const containerId = currentTargetSide === 'your' ? 'yourItems' : 'theirItems';
     const container = document.getElementById(containerId);
 
@@ -56,10 +70,10 @@ function confirmAddItem(baseValue, name, emoji, color, allowedVariants = ['norma
             <span class="item-name" title="${name}">${name}</span>
         </div>
         <div class="item-actions">
-            <select class="variant-select">
+            <select class="variant-select" onchange="playSound(clickSfx)">
                 ${variantOptions}
             </select>
-            <select class="level-select">
+            <select class="level-select" onchange="playSound(clickSfx)">
                 ${levelOptions}
             </select>
             <button class="btn-remove" onclick="removeItem(this)">Remove</button>
@@ -71,6 +85,7 @@ function confirmAddItem(baseValue, name, emoji, color, allowedVariants = ['norma
 }
 
 function removeItem(buttonElem) {
+    playSound(clickSfx);
     const itemGroup = buttonElem.closest('.item-group');
     if (itemGroup) {
         itemGroup.remove();
@@ -78,6 +93,7 @@ function removeItem(buttonElem) {
 }
 
 function calculateTrade() {
+    playSound(calcSfx);
     const yourItems = document.querySelectorAll('#yourItems .item-group');
     const theirItems = document.querySelectorAll('#theirItems .item-group');
 
