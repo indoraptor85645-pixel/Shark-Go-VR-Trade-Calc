@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shark Go Trade Calculator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h2>SHARK GO TRADE CALCULATOR</h2>
+
+<div class="container">
+    <div class="side">
+        <h3>YOUR OFFER</h3>
+        <div id="yourItems"></div>
+        <button class="btn-add" onclick="openPopup('your')">+ Add</button>
+    </div>
+
+    <div class="side">
+        <h3>THEIR OFFER</h3>
+        <div id="theirItems"></div>
+        <button class="btn-add" onclick="openPopup('their')">+ Add</button>
+    </div>
+</div>
+
+<div class="btn-calc-container">
+    <button class="btn-calc" onclick="calculateTrade()">CALCULATE</button>
+</div>
+
+<div class="result-box" id="results" style="display:none;">
+    <h3>TRADE ANALYSIS</h3>
+    <p><strong>Trade Fairness:</strong> <span id="fairnessPct">0</span>% Equal</p>
+    <p><strong>Verdict:</strong> <span id="verdict"></span></p>
+</div>
+
+<div id="itemModal" class="modal">
+    <div class="modal-content">
+        <h3>Select an Item</h3>
+        <div class="item-options">
+            <button class="modal-item-btn" onclick="confirmAddItem(10, 'White Shark', '🦈', '#a8a8a8', ['normal', 'nightmare'])">
+                <span class="modal-icon" style="background:#a8a8a8">🦈</span> White Shark
+            </button>
+            <button class="modal-item-btn" onclick="confirmAddItem(20, 'Hammerhead', '🔨', '#ff6b81', ['normal', 'nightmare'])">
+                <span class="modal-icon" style="background:#ff6b81">🔨</span> Hammerhead
+            </button>
+            <button class="modal-item-btn" onclick="confirmAddItem(30, 'Starfish', '⭐', '#f1c40f', ['normal', 'nightmare', 'crystal'])">
+                <span class="modal-icon" style="background:#f1c40f">⭐</span> Starfish
+            </button>
+            <button class="modal-item-btn" onclick="confirmAddItem(40, 'Lobster', '🦞', '#e74c3c', ['normal', 'nightmare', 'crystal'])">
+                <span class="modal-icon" style="background:#e74c3c">🦞</span> Lobster
+            </button>
+            <button class="modal-item-btn" onclick="confirmAddItem(50, 'Manta Ray', '🪼', '#2ed573', ['normal', 'nightmare'])">
+                <span class="modal-icon" style="background:#2ed573">🪼</span> Manta Ray
+            </button>
+            <button class="modal-item-btn" onclick="confirmAddItem(55, 'Sea Dragon', '🌊', '#3498db', ['normal', 'nightmare'])">
+                <span class="modal-icon" style="background:#3498db">🌊</span> Sea Dragon
+            </button>
+            <button class="modal-item-btn" onclick="confirmAddItem(60, 'Seal', '🦭', '#95a5a6', ['normal', 'nightmare', 'crystal'])">
+                <span class="modal-icon" style="background:#95a5a6">🦭</span> Seal
+            </button>
+            <button class="modal-item-btn" onclick="confirmAddItem(70, 'Narwhal', '🦄', '#9b59b6', ['normal', 'nightmare', 'crystal'])">
+                <span class="modal-icon" style="background:#9b59b6">🦄</span> Narwhal
+            </button>
+            <button class="modal-item-btn" onclick="confirmAddItem(80, 'Axolotl', '🦎', '#ffa801', ['normal', 'nightmare'])">
+                <span class="modal-icon" style="background:#ffa801">🦎</span> Axolotl
+            </button>
+            <button class="modal-item-btn" onclick="confirmAddItem(85, 'Crystal Crab', '🦀', '#00d2d3', ['normal', 'nightmare'])">
+                <span class="modal-icon" style="background:#00d2d3">🦀</span> Crystal Crab
+            </button>
+            <button class="modal-item-btn" onclick="confirmAddItem(90, 'Pixel Narwhal', '👾', '#54a0ff', ['normal'])">
+                <span class="modal-icon" style="background:#54a0ff">👾</span> Pixel Narwhal
+            </button>
+            <button class="modal-item-btn" onclick="confirmAddItem(90, 'Shenloong Jr', '🐲', '#10ac84', ['normal'])">
+                <span class="modal-icon" style="background:#10ac84">🐲</span> Shenloong Jr
+            </button>
+            <button class="modal-item-btn" onclick="confirmAddItem(95, 'Pixel Axolotl', '👾', '#ff9ff3', ['normal'])">
+                <span class="modal-icon" style="background:#ff9ff3">👾</span> Pixel Axolotl
+            </button>
+            <button class="modal-item-btn" onclick="confirmAddItem(95, 'Ghost Shark', '👻', '#c8d6e5', ['normal'])">
+                <span class="modal-icon" style="background:#c8d6e5">👻</span> Ghost Shark
+            </button>
+            <button class="modal-item-btn" onclick="confirmAddItem(180, 'King Manta', '👑🪼', '#f39c12', ['normal', 'nightmare'])">
+                <span class="modal-icon" style="background:#f39c12">👑🪼</span> King Manta
+            </button>
+            <button class="modal-item-btn" onclick="confirmAddItem(200, 'Krocotron', '🐊', '#20bf6b', ['normal', 'nightmare'])">
+                <span class="modal-icon" style="background:#20bf6b">🐊</span> Krocotron
+            </button>
+            <button class="modal-item-btn" onclick="confirmAddItem(220, 'Boxing Orca', '🥊', '#eb3b5a', ['normal'])">
+                <span class="modal-icon" style="background:#eb3b5a">🥊</span> Boxing Orca
+            </button>
+            <button class="modal-item-btn" onclick="confirmAddItem(280, 'Shenloong', '🐉', '#fa8231', ['normal', 'nightmare'])">
+                <span class="modal-icon" style="background:#fa8231">🐉</span> Shenloong
+            </button>
+            <button class="modal-item-btn" onclick="confirmAddItem(320, 'Titan Turtle', '🐢', '#26de81', ['normal'])">
+                <span class="modal-icon" style="background:#26de81">🐢</span> Titan Turtle
+            </button>
+            <button class="modal-item-btn" onclick="confirmAddItem(380, 'King of Sharks', '👑', '#fed330', ['normal'])">
+                <span class="modal-icon" style="background:#fed330">👑</span> King of Sharks
+            </button>
+            <button class="modal-item-btn" onclick="confirmAddItem(450, 'Sharkzilla', '🦖', '#fc5c65', ['normal'])">
+                <span class="modal-icon" style="background:#fc5c65">🦖</span> Sharkzilla
+            </button>
+            <button class="modal-item-btn" onclick="confirmAddItem(550, 'Metalodon', '⚙️', '#4b6584', ['normal'])">
+                <span class="modal-icon" style="background:#4b6584">⚙️</span> Metalodon
+            </button>
+        </div>
+        <button class="btn-close" onclick="closePopup()">Cancel</button>
+    </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
