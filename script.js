@@ -118,14 +118,15 @@ function calculateTrade() {
     }
 
     let verdictMessage = "";
+    
     if (yourTotal === 0 && theirTotal === 0) {
         verdictMessage = "Please add items to calculate!";
     } else if (yourTotal === theirTotal) {
-        verdictMessage = "<span class='fair'>Fair Trade!</span> Both sides are equal in value.";
+        verdictMessage = "<span class='fair' style='color:#2ecc71;'>Fair Trade</span>";
     } else if (theirTotal > yourTotal) {
-        verdictMessage = `<span class='fair'>Win!</span> You get more value out of this trade.`;
+        verdictMessage = "<span class='win' style='color:#2ecc71;'>Good Trade! (WIN)</span>";
     } else {
-        verdictMessage = `<span class='unfair'>Loss!</span> They get more value out of this trade.`;
+        verdictMessage = "<span class='loss' style='color:#e74c3c;'>Bad Trade! (LOSS)</span>";
     }
 
     const fairnessElem = document.getElementById('fairnessPct');
