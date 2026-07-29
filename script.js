@@ -1,6 +1,6 @@
 let currentTargetSide = 'your';
 
-function openPopup(side) {
+function openPopup(side, type) {
     currentTargetSide = side;
     const containerId = currentTargetSide === 'your' ? 'yourItems' : 'theirItems';
     const container = document.getElementById(containerId);
@@ -10,20 +10,21 @@ function openPopup(side) {
         return;
     }
 
-    const modal = document.getElementById('itemModal');
+    const modalId = type === 'weapon' ? 'weaponModal' : 'itemModal';
+    const modal = document.getElementById(modalId);
     if (modal) {
         modal.style.display = 'flex';
     }
 }
 
 function closePopup() {
-    const modal = document.getElementById('itemModal');
-    if (modal) {
-        modal.style.display = 'none';
-    }
+    const sharkModal = document.getElementById('itemModal');
+    const weaponModal = document.getElementById('weaponModal');
+    if (sharkModal) sharkModal.style.display = 'none';
+    if (weaponModal) weaponModal.style.display = 'none';
 }
 
-function confirmAddItem(baseValue, name, emoji, color, allowedVariants = ['normal']) {
+function confirmAddItem(baseValue, name, emoji, color, allowedVariants = ['normal'], itemType = 'shark') {
     const containerId = currentTargetSide === 'your' ? 'yourItems' : 'theirItems';
     const container = document.getElementById(containerId);
 
@@ -41,9 +42,13 @@ function confirmAddItem(baseValue, name, emoji, color, allowedVariants = ['norma
         variantOptions += '<option value="35">Crystal</option>';
     }
 
-    let levelOptions = '';
-    for (let i = 1; i <= 30; i++) {
-        levelOptions += `<option value="${i}">Level ${i}</option>`;
+    let levelHtml = '';
+    if (itemType === 'shark') {
+        let levelOptions = '';
+        for (let i = 1; i <= 30; i++) {
+            levelOptions += `<option value="${i}">Level ${i}</option>`;
+        }
+        levelHtml = `<select class="level-select">${levelOptions}</select>`;
     }
 
     const newItem = document.createElement('div');
@@ -59,9 +64,7 @@ function confirmAddItem(baseValue, name, emoji, color, allowedVariants = ['norma
             <select class="variant-select">
                 ${variantOptions}
             </select>
-            <select class="level-select">
-                ${levelOptions}
-            </select>
+            ${levelHtml}
             <button class="btn-remove" onclick="removeItem(this)">Remove</button>
         </div>
     `;
@@ -87,16 +90,18 @@ function calculateTrade() {
     yourItems.forEach(item => {
         const baseValue = parseFloat(item.getAttribute('data-base-value')) || 0;
         const variantBonus = parseFloat(item.querySelector('.variant-select').value) || 0;
-        const level = parseFloat(item.querySelector('.level-select').value) || 1;
-        const levelBonus = level * 2;
+        const levelSelect = item.querySelector('.level-select');
+        const level = levelSelect ? (parseFloat(levelSelect.value) || 1) : 0;
+        const levelBonus = levelSelect ? (level * 2) : 0;
         yourTotal += (baseValue + variantBonus + levelBonus);
     });
 
     theirItems.forEach(item => {
         const baseValue = parseFloat(item.getAttribute('data-base-value')) || 0;
         const variantBonus = parseFloat(item.querySelector('.variant-select').value) || 0;
-        const level = parseFloat(item.querySelector('.level-select').value) || 1;
-        const levelBonus = level * 2;
+        const levelSelect = item.querySelector('.level-select');
+        const level = levelSelect ? (parseFloat(levelSelect.value) || 1) : 0;
+        const levelBonus = levelSelect ? (level * 2) : 0;
         theirTotal += (baseValue + variantBonus + levelBonus);
     });
 
