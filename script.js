@@ -40,7 +40,6 @@ function confirmAddItem(baseValue, name, emoji, color, allowedVariants = ['norma
         return;
     }
 
-    // Set variant values: Weapons Nightmare adds +10, Sharks Nightmare adds +15
     const nightmareVal = itemType === 'weapon' ? 10 : 15;
 
     let variantOptions = '<option value="0">Normal</option>';
@@ -51,7 +50,6 @@ function confirmAddItem(baseValue, name, emoji, color, allowedVariants = ['norma
         variantOptions += '<option value="35">Crystal</option>';
     }
 
-    // Only generate Level selector if the item is a Shark
     let levelHtml = '';
     if (itemType === 'shark') {
         let levelOptions = '';
