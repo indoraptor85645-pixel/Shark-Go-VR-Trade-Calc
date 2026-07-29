@@ -10,7 +10,8 @@ function openPopup(side, type) {
         return;
     }
 
-    const modalId = type === 'weapon' ? 'weaponModal' : 'itemModal';
+    // Open the correct modal based on type
+    const modalId = type === 'weapon' ? 'weaponModal' : 'sharkModal';
     const modal = document.getElementById(modalId);
     if (modal) {
         modal.style.display = 'flex';
@@ -18,7 +19,7 @@ function openPopup(side, type) {
 }
 
 function closePopup() {
-    const sharkModal = document.getElementById('itemModal');
+    const sharkModal = document.getElementById('sharkModal');
     const weaponModal = document.getElementById('weaponModal');
     if (sharkModal) sharkModal.style.display = 'none';
     if (weaponModal) weaponModal.style.display = 'none';
