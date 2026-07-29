@@ -5,13 +5,12 @@ function openPopup(side, type) {
     const containerId = currentTargetSide === 'your' ? 'yourItems' : 'theirItems';
     const container = document.getElementById(containerId);
     
-    if (container.children.length >= 5) {
+    if (container && container.children.length >= 5) {
         alert("Maximum limit reached! You can only put up to 5 items on the table.");
         return;
     }
 
-    // Open the correct modal based on type
-    const modalId = type === 'weapon' ? 'weaponModal' : 'sharkModal';
+    const modalId = (type === 'weapon') ? 'weaponModal' : 'sharkModal';
     const modal = document.getElementById(modalId);
     if (modal) {
         modal.style.display = 'flex';
@@ -25,21 +24,21 @@ function closePopup() {
     if (weaponModal) weaponModal.style.display = 'none';
 }
 
-function confirmAddItem(baseValue, name, emoji, color, allowedVariants = ['normal'], itemType = 'shark') {
+function confirmAddItem(baseValue, name, emoji, color, variantsAllowedStr = 'none', itemType = 'shark') {
     const containerId = currentTargetSide === 'your' ? 'yourItems' : 'theirItems';
     const container = document.getElementById(containerId);
 
-    if (container.children.length >= 5) {
+    if (container && container.children.length >= 5) {
         alert("Maximum limit reached! You can only put up to 5 items on the table.");
         closePopup();
         return;
     }
 
     let variantOptions = '<option value="0">Normal</option>';
-    if (allowedVariants.includes('nightmare')) {
+    if (variantsAllowedStr.includes('nightmare')) {
         variantOptions += '<option value="15">Nightmare</option>';
     }
-    if (allowedVariants.includes('crystal')) {
+    if (variantsAllowedStr.includes('crystal')) {
         variantOptions += '<option value="35">Crystal</option>';
     }
 
@@ -70,7 +69,9 @@ function confirmAddItem(baseValue, name, emoji, color, allowedVariants = ['norma
         </div>
     `;
 
-    container.appendChild(newItem);
+    if (container) {
+        container.appendChild(newItem);
+    }
     closePopup();
 }
 
@@ -90,7 +91,8 @@ function calculateTrade() {
 
     yourItems.forEach(item => {
         const baseValue = parseFloat(item.getAttribute('data-base-value')) || 0;
-        const variantBonus = parseFloat(item.querySelector('.variant-select').value) || 0;
+        const variantSelect = item.querySelector('.variant-select');
+        const variantBonus = variantSelect ? (parseFloat(variantSelect.value) || 0) : 0;
         const levelSelect = item.querySelector('.level-select');
         const level = levelSelect ? (parseFloat(levelSelect.value) || 1) : 0;
         const levelBonus = levelSelect ? (level * 2) : 0;
@@ -99,7 +101,8 @@ function calculateTrade() {
 
     theirItems.forEach(item => {
         const baseValue = parseFloat(item.getAttribute('data-base-value')) || 0;
-        const variantBonus = parseFloat(item.querySelector('.variant-select').value) || 0;
+        const variantSelect = item.querySelector('.variant-select');
+        const variantBonus = variantSelect ? (parseFloat(variantSelect.value) || 0) : 0;
         const levelSelect = item.querySelector('.level-select');
         const level = levelSelect ? (parseFloat(levelSelect.value) || 1) : 0;
         const levelBonus = levelSelect ? (level * 2) : 0;
@@ -125,7 +128,11 @@ function calculateTrade() {
         verdictMessage = `<span class='unfair'>Loss!</span> They get more value out of this trade.`;
     }
 
-    document.getElementById('fairnessPct').innerText = equality;
-    document.getElementById('verdict').innerHTML = verdictMessage;
-    document.getElementById('results').style.display = 'block';
+    const fairnessElem = document.getElementById('fairnessPct');
+    const verdictElem = document.getElementById('verdict');
+    const resultsElem = document.getElementById('results');
+
+    if (fairnessElem) fairnessElem.innerText = equality;
+    if (verdictElem) verdictElem.innerHTML = verdictMessage;
+    if (resultsElem) resultsElem.style.display = 'block';
 }
