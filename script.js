@@ -1,6 +1,6 @@
 let currentTargetSide = 'your';
 
-function openPopup(side, type) {
+function openPopup(side) {
     currentTargetSide = side;
     const containerId = currentTargetSide === 'your' ? 'yourItems' : 'theirItems';
     const container = document.getElementById(containerId);
@@ -10,59 +10,45 @@ function openPopup(side, type) {
         return;
     }
 
-    if (type === 'shark') {
-        const modal = document.getElementById('itemModal');
-        if (modal) modal.style.display = 'flex';
-    } else if (type === 'weapon') {
-        const modal = document.getElementById('weaponModal');
-        if (modal) modal.style.display = 'flex';
+    const modal = document.getElementById('itemModal');
+    if (modal) {
+        modal.style.display = 'flex';
     }
 }
 
 function closePopup() {
     const modal = document.getElementById('itemModal');
-    if (modal) modal.style.display = 'none';
+    if (modal) {
+        modal.style.display = 'none';
+    }
 }
 
-function closeWeaponPopup() {
-    const modal = document.getElementById('weaponModal');
-    if (modal) modal.style.display = 'none';
-}
-
-function confirmAddItem(baseValue, name, emoji, color, allowedVariants = ['normal'], itemType = 'shark') {
+function confirmAddItem(baseValue, name, emoji, color, allowedVariants = ['normal']) {
     const containerId = currentTargetSide === 'your' ? 'yourItems' : 'theirItems';
     const container = document.getElementById(containerId);
 
     if (container.children.length >= 5) {
         alert("Maximum limit reached! You can only put up to 5 items on the table.");
         closePopup();
-        closeWeaponPopup();
         return;
     }
 
-    const nightmareVal = itemType === 'weapon' ? 10 : 15;
-
     let variantOptions = '<option value="0">Normal</option>';
     if (allowedVariants.includes('nightmare')) {
-        variantOptions += `<option value="${nightmareVal}">Nightmare</option>`;
+        variantOptions += '<option value="15">Nightmare</option>';
     }
     if (allowedVariants.includes('crystal')) {
         variantOptions += '<option value="35">Crystal</option>';
     }
 
-    let levelHtml = '';
-    if (itemType === 'shark') {
-        let levelOptions = '';
-        for (let i = 1; i <= 30; i++) {
-            levelOptions += `<option value="${i}">Level ${i}</option>`;
-        }
-        levelHtml = `<select class="level-select">${levelOptions}</select>`;
+    let levelOptions = '';
+    for (let i = 1; i <= 30; i++) {
+        levelOptions += `<option value="${i}">Level ${i}</option>`;
     }
 
     const newItem = document.createElement('div');
     newItem.className = 'item-group';
     newItem.setAttribute('data-base-value', baseValue);
-    newItem.setAttribute('data-item-type', itemType);
 
     newItem.innerHTML = `
         <div class="item-info">
@@ -73,14 +59,15 @@ function confirmAddItem(baseValue, name, emoji, color, allowedVariants = ['norma
             <select class="variant-select">
                 ${variantOptions}
             </select>
-            ${levelHtml}
+            <select class="level-select">
+                ${levelOptions}
+            </select>
             <button class="btn-remove" onclick="removeItem(this)">Remove</button>
         </div>
     `;
 
     container.appendChild(newItem);
     closePopup();
-    closeWeaponPopup();
 }
 
 function removeItem(buttonElem) {
@@ -100,22 +87,16 @@ function calculateTrade() {
     yourItems.forEach(item => {
         const baseValue = parseFloat(item.getAttribute('data-base-value')) || 0;
         const variantBonus = parseFloat(item.querySelector('.variant-select').value) || 0;
-        
-        const levelSelect = item.querySelector('.level-select');
-        const level = levelSelect ? (parseFloat(levelSelect.value) || 1) : 0;
-        const levelBonus = levelSelect ? (level * 2) : 0;
-
+        const level = parseFloat(item.querySelector('.level-select').value) || 1;
+        const levelBonus = level * 2;
         yourTotal += (baseValue + variantBonus + levelBonus);
     });
 
     theirItems.forEach(item => {
         const baseValue = parseFloat(item.getAttribute('data-base-value')) || 0;
         const variantBonus = parseFloat(item.querySelector('.variant-select').value) || 0;
-        
-        const levelSelect = item.querySelector('.level-select');
-        const level = levelSelect ? (parseFloat(levelSelect.value) || 1) : 0;
-        const levelBonus = levelSelect ? (level * 2) : 0;
-
+        const level = parseFloat(item.querySelector('.level-select').value) || 1;
+        const levelBonus = level * 2;
         theirTotal += (baseValue + variantBonus + levelBonus);
     });
 
