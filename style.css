@@ -270,3 +270,12 @@ h3 {
 @media (max-width: 650px) {
     .container { flex-direction: column; }
 }
+.button-group {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.button-group .btn-add {
+    flex: 1;
+}
