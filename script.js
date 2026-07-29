@@ -113,20 +113,35 @@ function calculateTrade() {
     const maxValue = Math.max(yourTotal, theirTotal);
 
     let equality = 100;
+    let diffPct = 0;
+    
     if (maxValue > 0) {
         equality = Math.max(0, 100 - ((difference / maxValue) * 100)).toFixed(1);
+        diffPct = ((difference / maxValue) * 100);
     }
 
     let verdictMessage = "";
-    
+
     if (yourTotal === 0 && theirTotal === 0) {
         verdictMessage = "Please add items to calculate!";
     } else if (yourTotal === theirTotal) {
-        verdictMessage = "<span class='fair' style='color:#2ecc71;'>Fair Trade</span>";
+        verdictMessage = "<span style='color:#2ecc71; font-weight:bold;'>Perfect Trade</span>";
     } else if (theirTotal > yourTotal) {
-        verdictMessage = "<span class='win' style='color:#2ecc71;'>Good Trade! (WIN)</span>";
+        // You are gaining value (Win)
+        verdictMessage = "<span style='color:#2ecc71; font-weight:bold;'>Good Trade</span>";
     } else {
-        verdictMessage = "<span class='loss' style='color:#e74c3c;'>Bad Trade! (LOSS)</span>";
+        // You are losing value (Loss)
+        if (diffPct <= 10) {
+            verdictMessage = "<span style='color:#f1c40f; font-weight:bold;'>Fine Trade</span>";
+        } else if (diffPct <= 25) {
+            verdictMessage = "<span style='color:#e67e22; font-weight:bold;'>Kind of Bad Trade</span>";
+        } else if (diffPct <= 45) {
+            verdictMessage = "<span style='color:#e74c3c; font-weight:bold;'>Bad Trade</span>";
+        } else if (diffPct <= 70) {
+            verdictMessage = "<span style='color:#c0392b; font-weight:bold;'>Terrible Trade</span>";
+        } else {
+            verdictMessage = "<span style='color:#8e44ad; font-weight:bold;'>WORST TRADE EVER</span>";
+        }
     }
 
     const fairnessElem = document.getElementById('fairnessPct');
