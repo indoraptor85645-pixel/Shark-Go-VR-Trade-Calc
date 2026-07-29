@@ -1,83 +1,111 @@
-<div class="side">
-    <h3>YOUR OFFER</h3>
-    <div id="yourItems"></div>
-    <div class="button-group">
-        <button class="btn-add" onclick="openPopup('your', 'shark')">+ Add Shark</button>
-        <button class="btn-add" onclick="openPopup('your', 'weapon')">+ Add Weapon</button>
-    </div>
-</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trade Calculator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-<div class="side">
-    <h3>THEIR OFFER</h3>
-    <div id="theirItems"></div>
-    <div class="button-group">
-        <button class="btn-add" onclick="openPopup('their', 'shark')">+ Add Shark</button>
-        <button class="btn-add" onclick="openPopup('their', 'weapon')">+ Add Weapon</button>
-    </div>
-</div>
+    <div class="calculator-container">
+        <h2>Trade Calculator</h2>
+        <p>Use this to calculate your trades fairly and easily!</p>
 
-<div id="itemModal" class="modal">
-    <div class="modal-content">
-        <h3>Select a Shark</h3>
-        <div class="item-options">
-            <button class="modal-item-btn" onclick="confirmAddItem(10, 'Great White', '🦈', '#2ed573', ['normal', 'nightmare', 'crystal'], 'shark')">
-                <div class="modal-icon" style="background: #2ed573;">🦈</div>
-                <span>Great White (10)</span>
-            </button>
+        <div class="trade-board">
+            <div class="side">
+                <h3>YOUR OFFER</h3>
+                <div id="yourItems"></div>
+                <div class="button-group">
+                    <button class="btn-add" onclick="openPopup('your', 'shark')">+ Add Shark</button>
+                    <button class="btn-add" onclick="openPopup('your', 'weapon')">+ Add Weapon</button>
+                </div>
+            </div>
+
+            <div class="side">
+                <h3>THEIR OFFER</h3>
+                <div id="theirItems"></div>
+                <div class="button-group">
+                    <button class="btn-add" onclick="openPopup('their', 'shark')">+ Add Shark</button>
+                    <button class="btn-add" onclick="openPopup('their', 'weapon')">+ Add Weapon</button>
+                </div>
+            </div>
         </div>
-        <button class="btn-close" onclick="closePopup()">Close</button>
-    </div>
-</div>
 
-<div id="weaponModal" class="modal">
-    <div class="modal-content">
-        <h3>Select a Weapon</h3>
-        <div class="item-options">
-            <button class="modal-item-btn" onclick="confirmAddItem(10, 'Drill', '🔩', '#74b9ff', ['normal', 'nightmare'], 'weapon')">
-                <div class="modal-icon" style="background: #74b9ff;">🔩</div>
-                <span>Drill (10)</span>
-            </button>
-            <button class="modal-item-btn" onclick="confirmAddItem(10, 'Cannon', '💣', '#6c5ce7', ['normal', 'nightmare'], 'weapon')">
-                <div class="modal-icon" style="background: #6c5ce7;">💣</div>
-                <span>Cannon (10)</span>
-            </button>
-            <button class="modal-item-btn" onclick="confirmAddItem(10, 'Saw', '⚙️', '#a29bfe', ['normal', 'nightmare'], 'weapon')">
-                <div class="modal-icon" style="background: #a29bfe;">⚙️</div>
-                <span>Saw (10)</span>
-            </button>
-            <button class="modal-item-btn" onclick="confirmAddItem(10, 'Booster', '🚀', '#fd79a8', ['normal', 'nightmare'], 'weapon')">
-                <div class="modal-icon" style="background: #fd79a8;">🚀</div>
-                <span>Booster (10)</span>
-            </button>
-            <button class="modal-item-btn" onclick="confirmAddItem(15, 'Arm', '🦾', '#ff7675', ['normal', 'nightmare'], 'weapon')">
-                <div class="modal-icon" style="background: #ff7675;">🦾</div>
-                <span>Arm (15)</span>
-            </button>
-            <button class="modal-item-btn" onclick="confirmAddItem(30, 'Dual Arm', '🦾', '#e17055', ['normal', 'nightmare'], 'weapon')">
-                <div class="modal-icon" style="background: #e17055;">🦾</div>
-                <span>Dual Arm (30)</span>
-            </button>
-            <button class="modal-item-btn" onclick="confirmAddItem(30, 'Double Cannon', '💥', '#d63031', ['normal', 'nightmare'], 'weapon')">
-                <div class="modal-icon" style="background: #d63031;">💥</div>
-                <span>Double Cannon (30)</span>
-            </button>
-            <button class="modal-item-btn" onclick="confirmAddItem(35, 'Homing Booster', '🎯', '#00b894', ['normal', 'nightmare'], 'weapon')">
-                <div class="modal-icon" style="background: #00b894;">🎯</div>
-                <span>Homing Booster (35)</span>
-            </button>
-            <button class="modal-item-btn" onclick="confirmAddItem(35, 'Extending Saw', '🪚', '#00cec9', ['normal', 'nightmare'], 'weapon')">
-                <div class="modal-icon" style="background: #00cec9;">🪚</div>
-                <span>Extending Saw (35)</span>
-            </button>
-            <button class="modal-item-btn" onclick="confirmAddItem(40, 'Shark Booster', '🦈', '#0984e3', ['normal', 'nightmare'], 'weapon')">
-                <div class="modal-icon" style="background: #0984e3;">🦈</div>
-                <span>Shark Booster (40)</span>
-            </button>
-            <button class="modal-item-btn" onclick="confirmAddItem(50, 'Minigun', '🔫', '#fdcb6e', ['normal', 'nightmare'], 'weapon')">
-                <div class="modal-icon" style="background: #fdcb6e;">🔫</div>
-                <span>Minigun (50)</span>
-            </button>
+        <button class="btn-calculate" onclick="calculateTrade()">Calculate</button>
+
+        <div id="results" class="results-box" style="display: none;">
+            <h3>Fairness Rating: <span id="fairnessPct">100</span>%</h3>
+            <p id="verdict"></p>
         </div>
-        <button class="btn-close" onclick="closeWeaponPopup()">Close</button>
     </div>
-</div>
+
+    <div id="itemModal" class="modal">
+        <div class="modal-content">
+            <h3>Select a Shark</h3>
+            <div class="item-options">
+                <button class="modal-item-btn" onclick="confirmAddItem(10, 'Great White', '🦈', '#2ed573', ['normal', 'nightmare', 'crystal'], 'shark')">
+                    <div class="modal-icon" style="background: #2ed573;">🦈</div>
+                    <span>Great White (10)</span>
+                </button>
+            </div>
+            <button class="btn-close" onclick="closePopup()">Close</button>
+        </div>
+    </div>
+
+    <div id="weaponModal" class="modal">
+        <div class="modal-content">
+            <h3>Select a Weapon</h3>
+            <div class="item-options">
+                <button class="modal-item-btn" onclick="confirmAddItem(10, 'Drill', '🔩', '#74b9ff', ['normal', 'nightmare'], 'weapon')">
+                    <div class="modal-icon" style="background: #74b9ff;">🔩</div>
+                    <span>Drill (10)</span>
+                </button>
+                <button class="modal-item-btn" onclick="confirmAddItem(10, 'Cannon', '💣', '#6c5ce7', ['normal', 'nightmare'], 'weapon')">
+                    <div class="modal-icon" style="background: #6c5ce7;">💣</div>
+                    <span>Cannon (10)</span>
+                </button>
+                <button class="modal-item-btn" onclick="confirmAddItem(10, 'Saw', '⚙️', '#a29bfe', ['normal', 'nightmare'], 'weapon')">
+                    <div class="modal-icon" style="background: #a29bfe;">⚙️</div>
+                    <span>Saw (10)</span>
+                </button>
+                <button class="modal-item-btn" onclick="confirmAddItem(10, 'Booster', '🚀', '#fd79a8', ['normal', 'nightmare'], 'weapon')">
+                    <div class="modal-icon" style="background: #fd79a8;">🚀</div>
+                    <span>Booster (10)</span>
+                </button>
+                <button class="modal-item-btn" onclick="confirmAddItem(15, 'Arm', '🦾', '#ff7675', ['normal', 'nightmare'], 'weapon')">
+                    <div class="modal-icon" style="background: #ff7675;">🦾</div>
+                    <span>Arm (15)</span>
+                </button>
+                <button class="modal-item-btn" onclick="confirmAddItem(30, 'Dual Arm', '🦾', '#e17055', ['normal', 'nightmare'], 'weapon')">
+                    <div class="modal-icon" style="background: #e17055;">🦾</div>
+                    <span>Dual Arm (30)</span>
+                </button>
+                <button class="modal-item-btn" onclick="confirmAddItem(30, 'Double Cannon', '💥', '#d63031', ['normal', 'nightmare'], 'weapon')">
+                    <div class="modal-icon" style="background: #d63031;">💥</div>
+                    <span>Double Cannon (30)</span>
+                </button>
+                <button class="modal-item-btn" onclick="confirmAddItem(35, 'Homing Booster', '🎯', '#00b894', ['normal', 'nightmare'], 'weapon')">
+                    <div class="modal-icon" style="background: #00b894;">🎯</div>
+                    <span>Homing Booster (35)</span>
+                </button>
+                <button class="modal-item-btn" onclick="confirmAddItem(35, 'Extending Saw', '🪚', '#00cec9', ['normal', 'nightmare'], 'weapon')">
+                    <div class="modal-icon" style="background: #00cec9;">🪚</div>
+                    <span>Extending Saw (35)</span>
+                </button>
+                <button class="modal-item-btn" onclick="confirmAddItem(40, 'Shark Booster', '🦈', '#0984e3', ['normal', 'nightmare'], 'weapon')">
+                    <div class="modal-icon" style="background: #0984e3;">🦈</div>
+                    <span>Shark Booster (40)</span>
+                </button>
+                <button class="modal-item-btn" onclick="confirmAddItem(50, 'Minigun', '🔫', '#fdcb6e', ['normal', 'nightmare'], 'weapon')">
+                    <div class="modal-icon" style="background: #fdcb6e;">🔫</div>
+                    <span>Minigun (50)</span>
+                </button>
+            </div>
+            <button class="btn-close" onclick="closeWeaponPopup()">Close</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
