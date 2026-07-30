@@ -121,16 +121,29 @@ function calculateTrade() {
     }
 
     let verdictMessage = "";
+    let statusMessage = "";
 
     if (yourTotal === 0 && theirTotal === 0) {
         verdictMessage = "Please add items to calculate!";
+        statusMessage = "-";
     } else if (yourTotal === theirTotal) {
+        statusMessage = "<span style='color:#2ecc71; font-weight:bold;'>Equal Trade</span>";
         verdictMessage = "<span style='color:#2ecc71; font-weight:bold;'>Perfect Trade</span>";
     } else if (theirTotal > yourTotal) {
-        // You are gaining value (Win)
-        verdictMessage = "<span style='color:#2ecc71; font-weight:bold;'>Good Trade</span>";
+        // WIN for You
+        statusMessage = "<span style='color:#2ecc71; font-weight:bold;'>WIN for You</span>";
+
+        if (diffPct <= 20) {
+            verdictMessage = "<span style='color:#2ecc71; font-weight:bold;'>Good Trade</span>";
+        } else if (diffPct <= 50) {
+            verdictMessage = "<span style='color:#00b894; font-weight:bold;'>Big Win!</span>";
+        } else {
+            verdictMessage = "<span style='color:#0984e3; font-weight:bold;'>HUGE WIN!</span>";
+        }
     } else {
-        // You are losing value (Loss)
+        // LOSS for You
+        statusMessage = "<span style='color:#e74c3c; font-weight:bold;'>WIN for Them</span>";
+
         if (diffPct <= 10) {
             verdictMessage = "<span style='color:#f1c40f; font-weight:bold;'>Fine Trade</span>";
         } else if (diffPct <= 25) {
@@ -145,10 +158,12 @@ function calculateTrade() {
     }
 
     const fairnessElem = document.getElementById('fairnessPct');
+    const statusElem = document.getElementById('statusText');
     const verdictElem = document.getElementById('verdict');
     const resultsElem = document.getElementById('results');
 
     if (fairnessElem) fairnessElem.innerText = equality;
+    if (statusElem) statusElem.innerHTML = statusMessage;
     if (verdictElem) verdictElem.innerHTML = verdictMessage;
     if (resultsElem) resultsElem.style.display = 'block';
 }
