@@ -5,8 +5,9 @@ function openPopup(side, type) {
     const containerId = currentTargetSide === 'your' ? 'yourItems' : 'theirItems';
     const container = document.getElementById(containerId);
     
-    if (container && container.children.length >= 5) {
-        alert("Maximum limit reached! You can only put up to 5 items on the table.");
+    // Updated limit to 6
+    if (container && container.children.length >= 6) {
+        alert("Maximum limit reached! You can only put up to 6 items on the table.");
         return;
     }
 
@@ -28,8 +29,9 @@ function confirmAddItem(baseValue, name, emoji, color, variantsAllowedStr = 'non
     const containerId = currentTargetSide === 'your' ? 'yourItems' : 'theirItems';
     const container = document.getElementById(containerId);
 
-    if (container && container.children.length >= 5) {
-        alert("Maximum limit reached! You can only put up to 5 items on the table.");
+    // Updated limit to 6
+    if (container && container.children.length >= 6) {
+        alert("Maximum limit reached! You can only put up to 6 items on the table.");
         closePopup();
         return;
     }
