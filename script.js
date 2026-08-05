@@ -5,7 +5,6 @@ function openPopup(side, type) {
     const containerId = currentTargetSide === 'your' ? 'yourItems' : 'theirItems';
     const container = document.getElementById(containerId);
     
-    // Updated limit to 6
     if (container && container.children.length >= 6) {
         alert("Maximum limit reached! You can only put up to 6 items on the table.");
         return;
@@ -29,19 +28,25 @@ function confirmAddItem(baseValue, name, emoji, color, variantsAllowedStr = 'non
     const containerId = currentTargetSide === 'your' ? 'yourItems' : 'theirItems';
     const container = document.getElementById(containerId);
 
-    // Updated limit to 6
     if (container && container.children.length >= 6) {
         alert("Maximum limit reached! You can only put up to 6 items on the table.");
         closePopup();
         return;
     }
 
+    // Special Nightmare Rule: -10 value for Metalodon, Shenloong, and Krocotron
+    const specialNegativeNightmares = ['Metalodon', 'Shenloong', 'Krocotron'];
+    const nightmareValue = specialNegativeNightmares.includes(name) ? -10 : 15;
+
     let variantOptions = '<option value="0">Normal</option>';
     if (variantsAllowedStr.includes('nightmare')) {
-        variantOptions += '<option value="15">Nightmare</option>';
+        variantOptions += `<option value="${nightmareValue}">Nightmare</option>`;
     }
     if (variantsAllowedStr.includes('crystal')) {
         variantOptions += '<option value="35">Crystal</option>';
+    }
+    if (variantsAllowedStr.includes('egg')) {
+        variantOptions += '<option value="60">Egg</option>';
     }
 
     let levelHtml = '';
